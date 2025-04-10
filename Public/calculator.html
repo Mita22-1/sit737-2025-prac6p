@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elegant Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Dancing Script', cursive;
+            margin: 40px auto;
+            padding: 20px;
+            max-width: 400px;
+            background: #e6f0ff; /* Light blue box */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a1a1a;
+            font-size: 2rem;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1.1rem;
+            font-family: 'Dancing Script', cursive;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #6f42c1; /* Purple */
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #5a32a3; /* Darker purple */
+        }
+
+        #result {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+
+        #error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cloud Native Calculator</h1>
+
+    <form id="calcForm">
+        <input type="number" id="num1" placeholder="Enter first number" required>
+        <input type="number" id="num2" placeholder="Enter second number">
+
+        <select id="operation">
+            <option value="">Select Operation</option>
+            <option value="add">Add (+)</option>
+            <option value="subtract">Subtract (-)</option>
+            <option value="multiply">Multiply (×)</option>
+            <option value="divide">Divide (÷)</option>
+            <option value="modulo">Modulo (%)</option>
+            <option value="exponent">Exponentiation (^)</option>
+            <option value="sqrt">Square Root (√ first number)</option>
+        </select>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <div id="result"></div>
+    <div id="error"></div>
+
+    <script>
+        document.getElementById('calcForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const num1 = document.getElementById("num1").value;
+            const num2 = document.getElementById("num2").value;
+            const operation = document.getElementById("operation").value;
+            const resultDiv = document.getElementById("result");
+            const errorDiv = document.getElementById("error");
+
+            resultDiv.textContent = '';
+            errorDiv.textContent = '';
+
+            if (!num1 || (!num2 && operation !== 'sqrt') || !operation) {
+                errorDiv.textContent = 'Please fill in the required fields and select an operation.';
+                return;
+            }
+
+            let query = `num1=${num1}&operation=${operation}`;
+            if (operation !== 'sqrt') query += `&num2=${num2}`;
+
+            try {
+                const response = await fetch(`/calculate?${query}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Unknown error');
+                }
+
+                resultDiv.textContent = `Result: ${data.result}`;
+            } catch (err) {
+                errorDiv.textContent = err.message;
+            }
+        });
+    </script>
+</body>
+</html>
