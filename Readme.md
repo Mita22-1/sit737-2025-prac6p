@@ -1,64 +1,23 @@
-# SIT737-2025 Prac 5.1P – Containerized Calculator Microservice
+# Node.js Calculator Microservice – SIT737 6.1P
 
-This project demonstrates containerising a Node.js calculator microservice using Docker, 
-with health monitoring and automatic restart capabilities. It provides a web-based UI for 
-entering numbers and selecting operations, and logs all user activity using Winston.
-
----
+This lightweight microservice is built using **Node.js** and **Express.js** for backend routing, with a simple **HTML/JavaScript** frontend interface. It performs basic calculator operations and can be containerised using Docker and deployed using Kubernetes.
 
 ## Prerequisites
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop)
-- [Node.js](https://nodejs.org/) (for local development & testing)
-- [Git](https://git-scm.com/) (for cloning the repo)
+- [Node.js (LTS version)](https://nodejs.org/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) with Kubernetes enabled
+- `kubectl` CLI installed and configured
 
----
+## Setup Instructions
 
-## Installation
-
-1. **Clone the repository:**
-```bash
+### 1. Clone the Repository
 git clone https://github.com/Mita22-1/sit737-2025-prac5p.git
 cd sit737-2025-prac5p
-
----
-
-## Run the app using docker compose
-
-```bash
-docker-compose up --build
-
----
-
-## Open app on browser
-
-http://localhost:3111
-
----
-
-## Health Check
-
-```bash 
-GET http://localhost:3111/health
-
----
-
-## Project Structure
-
-```bash 
-├── Dockerfile               # Image configuration
-├── docker-compose.yml       # Service and healthcheck
-├── server.js                # Backend with Winston logging
-├── calculator.html          # Frontend (served via Express)
-├── package.json             # Node dependencies
-├── server.log               # Logging file output
-├── README.md                # Project documentation
-
----
-
-## Developed By:
-
-Mitali Kaur
-SIT737 Cloud Native Application Development
-T1, 2025
-Deakin University
+2. Install Dependencies: npm install
+3. Build the Docker Image: docker build -t mitali/web_app:1.0 
+4. Apply Kubernetes Manifests
+Create and apply the following files:
+deployment.yaml – defines the deployment
+service.yaml – exposes the app via NodePort
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
