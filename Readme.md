@@ -13,9 +13,13 @@ This lightweight microservice is built using **Node.js** and **Express.js** for 
 ### 1. Clone the Repository
 git clone https://github.com/Mita22-1/sit737-2025-prac5p.git
 cd sit737-2025-prac5p
-2. Install Dependencies: npm install
-3. Build the Docker Image: docker build -t mitali/web_app:1.0 
-4. Apply Kubernetes Manifests
+
+### 2. Install Dependencies: npm install
+
+### 3. Build the Docker Image: docker build -t mitali/web_app:1.0 
+
+### 4. Apply Kubernetes Manifests
+
 Create and apply the following files:
 deployment.yaml – defines the deployment
 service.yaml – exposes the app via NodePort
